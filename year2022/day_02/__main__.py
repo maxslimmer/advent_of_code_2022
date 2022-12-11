@@ -1,4 +1,4 @@
-from aoc.util import get_data
+from year2022.util import get_input
 
 player1_symbol = {"A": "r", "B": "p", "C": "s"}
 player2_symbol = {"X": "r", "Y": "p", "Z": "s"}
@@ -46,7 +46,7 @@ def score_round(move):
 
 if __name__ == "__main__":
     data = []
-    for line in get_data(__file__).splitlines():
+    for line in get_input(__file__).splitlines():
         pair = line.split()
 
         data.append((player1_symbol[pair[0]], player2_symbol[pair[1]]))
@@ -54,7 +54,7 @@ if __name__ == "__main__":
     print(compute_score(data))
 
     data = []
-    for line in get_data(__file__).splitlines():
+    for line in get_input(__file__).splitlines():
         pair = tuple(line.split())
 
         move = decode_move(pair)

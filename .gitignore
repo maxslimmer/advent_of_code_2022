@@ -1,5 +1,6 @@
 # data stuff
-data.txt
+input.txt
+example-input.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

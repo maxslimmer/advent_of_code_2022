@@ -1,11 +1,11 @@
-from aoc.util import get_data
+from year2022.util import get_input
 
 from string import ascii_letters
 
 
 def part_1():
 
-    data = get_data(__file__)
+    data = get_input(__file__)
     priorities = []
     for line in data.splitlines():
         compart1 = set(line[: len(line) // 2])
@@ -17,7 +17,7 @@ def part_1():
 
 
 def part_2():
-    data = get_data(__file__)
+    data = get_input(__file__)
     priorities = []
     for group in zip(*[iter(data.splitlines())] * 3):
         badge = (
@@ -29,5 +29,5 @@ def part_2():
 
 
 if __name__ == "__main__":
-    print(part_1())
-    print(part_2())
+    print(part_1())  # 7742
+    print(part_2())  # 2276

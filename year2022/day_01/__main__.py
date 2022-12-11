@@ -1,4 +1,4 @@
-from aoc.util import get_data
+from pathlib import Path
 
 
 def elves_totals(data):
@@ -17,13 +17,24 @@ def elves_totals(data):
     return [sum(elf) for elf in elves]
 
 
-if __name__ == "__main__":
-    data = get_data(__file__)
-    totals = elves_totals(data)
+def main(_input):
+
+    totals = elves_totals(_input)
 
     totals.sort(reverse=True)
-    answer_part1 = totals[0]
-    answer_part2 = sum(totals[0:3])
+    return totals[0], sum(totals[0:3])
+
+
+def get_input():
+    with Path(__file__).parent.joinpath("input.txt").open() as _file:
+        _input = _file.read()
+
+    return _input
+
+
+if __name__ == "__main__":
+
+    answer_part1, answer_part2 = main(get_input())
 
     print(f"part 1: {answer_part1}")
     print(f"part 2: {answer_part2}")
