@@ -12,15 +12,18 @@ def parse_input(input_: str) -> tuple[str, int]:
     return moves
 
 
+KNOT_COUNT = 10
+
+
 def main(input_):
     moves = parse_input(input_)
-    tail_pos = head_pos = (0, 0)
-    tail_visits = set((tail_pos,))
+    rope = [(0, 0) for _ in range(KNOT_COUNT)]
+    tail_visits = set((rope[-1],))
 
     for direction, steps in moves:
         for _ in range(steps):
-            head_pos, tail_pos = execute_move(direction, *head_pos, *tail_pos)
-            tail_visits.add(tail_pos)
+            rope = execute_move(direction, rope)
+            tail_visits.add(rope[-1])
 
     return len(tail_visits)
 
@@ -35,20 +38,26 @@ def reduce_to_one(c):
     return c // abs(c)
 
 
-def execute_move(move, head_x, head_y, tail_x, tail_y):
+def execute_move(move, rope: list):
+    new_rope = rope.copy()
 
     # lead with the head
     vx, vy = VECTORS[move]
-    head_pos = (head_x + vx, head_y + vy)
+    new_rope[0] = (rope[0][0] + vx, rope[0][1] + vy)
 
-    # the tail follows
-    vector, distance = get_offset(*head_pos, tail_x, tail_y)
-    if distance <= math.sqrt(2):
-        return head_pos, (tail_x, tail_y)
+    # the followers react
+    leader = new_rope[0]
+    for follower_number, follower in enumerate(new_rope[1:], 1):
+        fx, fy = follower
+        vector, distance = get_offset(*leader, fx, fy)
+        if distance <= math.sqrt(2):
+            # no movement required
+            break
+        leader = fx + reduce_to_one(vector[0]), fy + reduce_to_one(vector[1])
 
-    tail_pos = tail_x + reduce_to_one(vector[0]), tail_y + reduce_to_one(vector[1])
+        new_rope[follower_number] = leader
 
-    return head_pos, tail_pos
+    return new_rope
 
 
 def get_offset(x0, y0, x1, y1):
